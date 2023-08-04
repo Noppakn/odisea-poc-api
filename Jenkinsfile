@@ -10,7 +10,8 @@ pipeline {
 
         stage('Code build') {
             steps {
-                sh 'npm install'
+                sh 'npm install' // หรือคำสั่งในการติดตั้ง dependencies ของ Express.js อื่นๆ
+                sh 'npm run build' // หรือคำสั่งในการ build โค้ดของ Express.js อื่นๆ
             }
         }
 
@@ -33,6 +34,16 @@ pipeline {
         stage('Remove build image') {
             steps {
                 sh 'docker rmi odisea-poc-api:latest'
+            }
+        }
+
+        stage('Store image to Acr') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'acr-credentials', passwordVariable: 'MNWA7AVzotMUWSTdVmz7OkkXv7p3LruWLYNkdFnFsp+ACRAhptC4', usernameVariable: 'odiseaacr')]) {
+                    sh "echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin registry.azurecr.io"
+                    sh 'docker tag odisea-poc-api:latest odiseaacr.azurecr.io/odisea-poc-api:latest'
+                    sh 'docker push odiseaacr.azurecr.io/odisea-poc-api:latest'
+                }
             }
         }
     }
