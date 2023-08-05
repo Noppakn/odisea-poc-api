@@ -3,13 +3,10 @@ pipeline {
 
     stages {
         stage('Clone git') {
-            steps {
-                checkout([$class: 'GitSCM',
-                          branches: [[name: '*/master']],
-                          userRemoteConfigs: [[url: 'https://github.com/Noppakn/odisea-poc-api.git']],
-                          // เพิ่มชื่อ credentialsId ที่คุณสร้างสำหรับการเข้าถึง Git repository ด้วย HTTPS
-                          credentialsId: 'git-credentials'])
-            }
+            cleanWs()
+            git branch: "*/master",
+            credentialsId: "git-credentials",
+            url: "https://github.com/Noppakn/odisea-poc-api.git"
         }
 
         stage('Code build') {
