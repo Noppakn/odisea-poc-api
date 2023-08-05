@@ -19,14 +19,30 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('SonarQube Scan') {          
-            steps {
-                sh 'mvn clean install'
-                withSonarQubeEnv('SonarQube1') {
-                    sh 'mvn sonar:sonar'
-                }
-            }
+        // stage('SonarQube Scan') {          
+        //     steps {
+        //         sh 'mvn clean install'
+        //         withSonarQubeEnv('SonarQube1') {
+        //             sh 'mvn sonar:sonar'
+        //         }
+        //     }
+        // }
+         stage('SonarQube Analysis') {
+            def scannerHome = tool 'sonarqube'
+            withSonarQubeEnv('sonarqube_token') {
+                sh """/var/lib/jenkins/tools/hudson.plugins.sonar.SonarRunnerInstallation/sonarqube/bin/sonar-scanner \
+                -D sonar.projectVersion=1.0-SNAPSHOT \
+                -D sonar.login=admin \
+                -D sonar.password=Odise@123 \
+                -D sonar.projectBaseDir=/var/lib/jenkins/workspace/jenkins-sonarqube-pipeline/ \
+                -D sonar.projectKey=project \
+                -D sonar.sourceEncoding=UTF-8 \
+                -D sonar.language=java \
+                -D sonar.sources=project/src/main \
+                -D sonar.tests=project/src/test \
+                -D sonar.host.url=http://4.194.175.25:9000"""
         }
+}
 
         // stage('Build Image') {
         //     steps {
