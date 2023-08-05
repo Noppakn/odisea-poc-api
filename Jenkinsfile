@@ -20,8 +20,9 @@ pipeline {
         }
         stage('SonarQube Scan') {
             steps {
-                withSonarQubeEnv('SonarQubeScanner-5.0.0') {
-                    sh 'sonar-scanner'
+                withSonarQubeEnv('SonarQube1') {
+                    sh 'npm install sonar-scanner'
+                    sh 'npm run sonar'
                 }
             }
         }
