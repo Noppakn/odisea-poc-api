@@ -8,13 +8,12 @@ pipeline {
         skipDefaultCheckout(true)
     }
 
-
     stages {
         stage('Clone git') {
             steps {
-            git branch: "${REPO_BRANCH}",
-            credentialsId: "${REPO_CREDENTIAL_ID}",
-            url: "${REPO_URL}"
+            git branch: '${REPO_BRANCH}',
+            credentialsId: '${REPO_CREDENTIAL_ID}',
+            url: '${REPO_URL}'
             }
         }
 
@@ -25,11 +24,11 @@ pipeline {
         }
     
 
-        // stage('Build Image') {
-        //     steps {
-        //         sh 'docker build -t odisea-poc-api:latest .'
-        //     }
-        // }
+        stage('Build Image') {
+            steps {
+                sh 'docker build -t ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER} $WORKSPACE/'
+            }
+        }
 
         // stage('Push image') {
         //     steps {
