@@ -1,7 +1,3 @@
-def appName="${APP_NAME}"
-def appRepo_url="${REPO_URL}"
-def appRepo_branch="${REPO_BRANCH}"
-def appRepo_credentialsId="${REPO_CREDENTIAL_ID}"
 
 pipeline {
     agent any
