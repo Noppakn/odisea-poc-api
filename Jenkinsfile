@@ -1,7 +1,8 @@
 pipeline {
     agent any
     tools {
-        nodejs '20.5.0'
+        nodejs '20.5.0',
+        maven 'maven 3.9.4'
     }
 
     stages {
@@ -21,7 +22,8 @@ pipeline {
         stage('SonarQube Scan') {
             steps {
                 withSonarQubeEnv('SonarQube1') {
-                    sh 'mvn sonar:sonar'
+                    sh 'mvn clean install'
+                    //sh 'mvn sonar:sonar'
                 }
             }
         }
