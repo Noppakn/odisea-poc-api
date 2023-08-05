@@ -1,3 +1,8 @@
+def appName="${APP_NAME}"
+def appRepo_url="${REPO_URL}"
+def appRepo_branch="${REPO_BRANCH}"
+def appRepo_credentialsId="${REPO_CREDENTIAL_ID}"
+
 pipeline {
     agent any
     tools {
@@ -5,16 +10,15 @@ pipeline {
     }
      options {
         skipDefaultCheckout(true)
-        skipDefaultTools(true)
     }
 
 
     stages {
         stage('Clone git') {
             steps {
-            git branch: "main",
-            credentialsId: "git-credentials",
-            url: "https://github.com/Noppakn/odisea-poc-api.git"
+            git branch: "${REPO_BRANCH}",
+            credentialsId: "${REPO_CREDENTIAL_ID}",
+            url: "${REPO_URL}"
             }
         }
 
