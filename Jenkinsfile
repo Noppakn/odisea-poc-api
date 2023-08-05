@@ -19,9 +19,9 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('SonarQube Scan') {
-            sh 'mvn clean install'
+        stage('SonarQube Scan') {          
             steps {
+                sh 'mvn clean install'
                 withSonarQubeEnv('SonarQube1') {
                     sh 'mvn sonar:sonar'
                 }
