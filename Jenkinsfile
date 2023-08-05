@@ -19,6 +19,13 @@ pipeline {
                 sh 'node index.js'
             }
         }
+        stage('SonarQube Scan') {
+            steps {
+                withSonarQubeEnv('SonarQubeScanner-5.0.0') {
+                    sh 'sonar-scanner'
+                }
+            }
+
 
         // stage('Build Image') {
         //     steps {
