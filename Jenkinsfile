@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Clone git') {
             steps {
-            git branch: "*/master",
+            git branch: "*/main",
             credentialsId: "git-credentials",
             url: "https://github.com/Noppakn/odisea-poc-api.git"
             }
