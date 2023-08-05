@@ -1,7 +1,8 @@
 pipeline {
     agent any
     tools {
-        nodejs '20.5.0'
+        nodejs '20.5.0', 
+        sonarqubescanner '5.0.0.2966'
     }
 
     stages {
