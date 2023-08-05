@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    tools {
+        nodejs '20.5.0'
+    }
 
     stages {
         stage('Clone git') {
@@ -10,13 +13,12 @@ pipeline {
             }
         }
 
-        // stage('Code build') {
-        //     steps {
-        //         sh 'sudo apt update && apt install -y nodejs npm'
-        //         sh 'npm install' // หรือคำสั่งในการติดตั้ง dependencies ของ Express.js อื่นๆ
-        //         sh 'npm run build' // หรือคำสั่งในการ build โค้ดของ Express.js อื่นๆ
-        //     }
-        // }
+        stage('Code build') {
+            steps {
+                sh 'npm install' // หรือคำสั่งในการติดตั้ง dependencies ของ Express.js อื่นๆ
+                sh 'npm run build' // หรือคำสั่งในการ build โค้ดของ Express.js อื่นๆ
+            }
+        }
 
         // stage('Build Image') {
         //     steps {
