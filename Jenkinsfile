@@ -16,7 +16,6 @@ pipeline {
         stage('Code build') {
             steps {
                 sh 'npm install'
-                sh 'node index.js'
             }
         }
         stage('SonarQube Scan') {
