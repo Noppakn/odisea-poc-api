@@ -2,6 +2,7 @@ pipeline {
     agent any
     tools {
         nodejs '20.5.0'
+        maven '3.9.4'
     }
 
     stages {
@@ -18,13 +19,13 @@ pipeline {
                 sh 'npm install'
             }
         }
-        stage('SonarQube Scan') {
-            steps {
-                withSonarQubeEnv('SonarQube1') {
-                    sh 'sonar:sonar'
-                }
-            }
-        }
+        // stage('SonarQube Scan') {
+        //     steps {
+        //         withSonarQubeEnv('SonarQube1') {
+        //             sh 'sonar:sonar'
+        //         }
+        //     }
+        // }
 
         // stage('Build Image') {
         //     steps {
