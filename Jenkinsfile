@@ -5,6 +5,7 @@ pipeline {
     }
      options {
         skipDefaultCheckout(true)
+        skipDefaultTools(true)
     }
 
 
