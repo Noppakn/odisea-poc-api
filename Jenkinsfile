@@ -25,7 +25,7 @@ pipeline {
                     sh 'sonar-scanner'
                 }
             }
-
+        }
 
         // stage('Build Image') {
         //     steps {
