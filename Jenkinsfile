@@ -30,30 +30,24 @@ pipeline {
             }
         }
 
-        // stage('Push image') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'docker-registry-credentials', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-        //             sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
-        //             sh 'docker tag odisea-poc-api:latest registry.example.com/odisea-poc-api:latest'
-        //             sh 'docker push registry.example.com/odisea-poc-api:latest'
-        //         }
-        //     }
-        // }
+        stage('Push image to acr') {
+            environment {
+                ACR_SERVER = '${DOCKER_REG_URL}'
+                ACR_USERNAME = credentials('${DOCKER_REG_CREDENTIALS}').USUARIO
+                ACR_PASSWORD = credentials('${DOCKER_REG_CREDENTIALS}').SENHA
+            }
+            steps {
+                sh 'docker login $ACR_SERVER -u $ACR_USERNAME -p $ACR_PASSWORD'
+                sh 'docker tag your-image-name $ACR_SERVER/${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
+                sh 'docker push $ACR_SERVER/${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
+            }
+        }
 
-        // stage('Remove build image') {
-        //     steps {
-        //         sh 'docker rmi odisea-poc-api:latest'
-        //     }
-        // }
+         stage('Remove build image') {
+            steps {
 
-        // stage('Store image to Acr') {
-        //     steps {
-        //         withCredentials([usernamePassword(credentialsId: 'acr-credentials', passwordVariable: 'MNWA7AVzotMUWSTdVmz7OkkXv7p3LruWLYNkdFnFsp+ACRAhptC4', usernameVariable: 'odiseaacr')]) {
-        //             sh "echo $ACR_PASSWORD | docker login -u $ACR_USERNAME --password-stdin registry.azurecr.io"
-        //             sh 'docker tag odisea-poc-api:latest odiseaacr.azurecr.io/odisea-poc-api:latest'
-        //             sh 'docker push odiseaacr.azurecr.io/odisea-poc-api:latest'
-        //         }
-        //     }
-        // }
+                sh 'docker rmi ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
+            }
+        }
     }
 }
