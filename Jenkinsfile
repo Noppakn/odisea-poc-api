@@ -31,8 +31,8 @@ pipeline {
         stage('Push image to acr') {
             environment {
                 ACR_SERVER = '${DOCKER_REG_URL}'
-                ACR_USERNAME = credentials('${DOCKER_REG_CREDENTIALS}').USUARIO
-                ACR_PASSWORD = credentials('${DOCKER_REG_CREDENTIALS}').SENHA
+                ACR_USERNAME = credentials("${DOCKER_REG_CREDENTIALS}").USUARIO
+                ACR_PASSWORD = credentials("${DOCKER_REG_CREDENTIALS}").SENHA
             }
             steps {
                 sh 'docker login $ACR_SERVER -u $ACR_USERNAME -p $ACR_PASSWORD'
