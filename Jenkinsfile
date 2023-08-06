@@ -32,11 +32,11 @@ pipeline {
          stage('Push Image to ACR') {
             environment {
                 ACR_SERVER = '${DOCKER_REG_URL}'
-                ACR_CREDENTIAL = '${DOCKER_REG_CREDENTIAL_ID}'
+                ACR_CREDENTIAL = 'acr-credential'
             }
         steps{   
             script {
-                docker.withRegistry(  "http://${ACR_SERVER}", ACR_CREDENTIAL ) {
+                docker.withRegistry(  "http://${ACR_SERVER}", "ACR-CREDENTIAL" ) {
                 dockerImage.push()
             }
         }
