@@ -36,7 +36,7 @@ pipeline {
             }
         steps{   
             script {
-                docker.withRegistry(  "http://${ACR_SERVER}", "ACR-CREDENTIAL" ) {
+                docker.withRegistry(  "http://${ACR_SERVER}", ACR_CREDENTIAL ) {
                 dockerImage.push()
             }
         }
