@@ -37,7 +37,7 @@ pipeline {
         steps{   
             script {
                 docker.withRegistry(  "http://${ACR_SERVER}", ACR_CREDENTIAL ) {
-                dockerImage.push()
+                sh " docker image push${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER} "
             }
         }
       }
