@@ -1,9 +1,9 @@
 
 pipeline {
     agent any
-    tools {
-        nodejs '20.5.0'
-    }
+    // tools {
+    //     nodejs '20.5.0'
+    // }
      options {
         skipDefaultCheckout(true)
     }
@@ -22,8 +22,6 @@ pipeline {
                 sh 'npm install'
             }
         }
-    
-
         stage('Build Image') {
             steps {
                 sh 'docker build -t ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER} $WORKSPACE/'
