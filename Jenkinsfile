@@ -31,7 +31,7 @@ pipeline {
 
          stage('Push Image to ACR') {
             environment {
-                ACR_SERVER = '${DOCKER_REG_URL}'
+                ACR_SERVER = 'odiseaacr.azurecr.io'
                 ACR_CREDENTIAL = 'acr-credential'
             }
         steps{   
