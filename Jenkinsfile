@@ -52,5 +52,4 @@ pipeline {
     }
 }
 
-docker run -p 3000:3000 -d odiseaacr.azurecr.io/odiseaacr/odisea-poc-api:17
-docker login odiseaacr.azurecr.io -u odiseaacr -p MNWA7AVzotMUWSTdVmz7OkkXv7p3LruWLYNkdFnFsp+ACRAhptC4
+
