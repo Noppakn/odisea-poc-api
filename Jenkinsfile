@@ -31,7 +31,7 @@ pipeline {
 
          stage('Push Image to ACR') {
             environment {
-                ACR_SERVER = 'odiseaacr.azurecr.io'
+                ACR_SERVER = '${DOCKER_REG_URL}'
                 ACR_CREDENTIAL = 'acr-credential'
             }
         steps{   
@@ -51,3 +51,6 @@ pipeline {
         }
     }
 }
+
+docker run -p 3000:3000 -d odiseaacr.azurecr.io/odiseaacr/odisea-poc-api:17
+docker login odiseaacr.azurecr.io -u odiseaacr -p MNWA7AVzotMUWSTdVmz7OkkXv7p3LruWLYNkdFnFsp+ACRAhptC4

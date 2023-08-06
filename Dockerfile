@@ -1,12 +1,13 @@
-FROM node:14-alpine
-
-COPY . /app
+FROM node:latest
 
 WORKDIR /app
 
-RUN npm install --production
-RUN npm cache clean --force
+COPY package*.json ./
 
-EXPOSE 3000
+RUN npm install --only=production
+
+COPY . .
+
+EXPOSE 8000
 
 CMD ["node", "index.js"]
