@@ -11,6 +11,7 @@ pipeline {
     stages {
         stage('Clone git') {
             steps {
+            echo '${DOCKER_REG_CREDENTIAL_ID}',
             git branch: '${REPO_BRANCH}',
             credentialsId: '${REPO_CREDENTIAL_ID}',
             url: '${REPO_URL}'
