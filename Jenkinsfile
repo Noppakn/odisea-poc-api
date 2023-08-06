@@ -20,7 +20,7 @@ pipeline {
         stage('Code build') {
             steps {
                 sh 'npm install'
-                echo '${DOCKER_REG_CREDENTIAL_ID}'
+                echo '${REPO_URL}'
             }
         }
         stage('Build Image') {
