@@ -28,18 +28,15 @@ pipeline {
             }
         }
 
-        stage('Push image to acr') {
-            environment {
-                ACR_SERVER = '${DOCKER_REG_URL}'
-                ACR_USERNAME = credentials("${DOCKER_REG_CREDENTIALS}").USUARIO
-                ACR_PASSWORD = credentials("${DOCKER_REG_CREDENTIALS}").SENHA
-            }
-            steps {
-                sh 'docker login $ACR_SERVER -u $ACR_USERNAME -p $ACR_PASSWORD'
-                sh 'docker tag your-image-name $ACR_SERVER/${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
-                sh 'docker push $ACR_SERVER/${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
+         stage('Push Image to ACR') {
+     steps{   
+         script {
+            docker.withRegistry( 'http://${DOCKER_REG_URL}', '${DOCKER_REG_CREDENTIAL_ID}' ) {
+            dockerImage.push()
             }
         }
+      }
+     }
 
          stage('Remove build image') {
             steps {
