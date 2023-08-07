@@ -12,7 +12,6 @@ pipeline {
         stage('Clone git') {
             steps {
             git branch: '${REPO_BRANCH}',
-            credentialsId: '${REPO_CREDENTIAL_ID}',
             url: '${REPO_URL}'
             }
         }
