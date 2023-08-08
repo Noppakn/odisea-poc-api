@@ -27,7 +27,10 @@ pipeline {
             }
         steps{
             withSonarQubeEnv("SonarQube") {
-                sh 'mvn sonar:sonar'
+                sh 'sonar-scanner \
+                -Dsonar.projectKey=jenkins-Integration \
+                -Dsonar.sources=. \
+                -Dsonar.host.url=http://4.194.175.25:9000'
                 }
             }
         }
