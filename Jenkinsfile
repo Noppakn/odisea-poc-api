@@ -25,7 +25,7 @@ pipeline {
            script {
                 def scannerHome = tool "SonarQubeScanner"
                 withSonarQubeEnv('SonarQube') {
-                         sh "${tool("sonarscan ")}/bin/sonar-scanner -Dsonar.projectKey=jenkins-Integration -Dsonar.projectName=jenkins-Integration"
+                         sh "${tool("SonarQubeScanner ")}/bin/sonar-scanner -Dsonar.projectKey=jenkins-Integration -Dsonar.projectName=jenkins-Integration"
                     }
                 }
             }
