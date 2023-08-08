@@ -27,11 +27,7 @@ pipeline {
             }
         steps{
             withSonarQubeEnv("SonarQube") {
-                sh ''' mvn clean verify sonar:sonar \
-                -Dsonar.projectKey=jenkins-Integration \
-                -Dsonar.projectName='jenkins-Integration' \
-                -Dsonar.host.url=http://4.194.175.25:9000 \
-                -Dsonar.token=sqp_66f7a51da01db1cba7152d28d3ce4dc1d48043c1 '''
+                sh 'mvn clean package sonar:sonar'
                 }
             }
         }
