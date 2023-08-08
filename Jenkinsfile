@@ -22,6 +22,7 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
+                PATH = "/root/.sonar/sonar-scanner-4.7.0.2747-linux"
                 scannerHome = tool "SonarQubeScanner"
             }
         steps{
