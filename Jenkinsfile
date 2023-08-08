@@ -22,8 +22,7 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
-                PATH = "$PATH:/opt/apache-maven-3.9.4/bin"
-                scannerHome = tool "SonarQubeScanner-5.0.1"
+                scannerHome = tool "SonarQubeScanner"
             }
         steps{
             withSonarQubeEnv("SonarQube") {
