@@ -1,9 +1,7 @@
 
 pipeline {
     agent any
-    // tools {
-    //     nodejs '20.5.0'
-    // }
+
      options {
         skipDefaultCheckout(true)
     }
@@ -24,6 +22,7 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
+                PATH = "$PATH:/opt/apache-maven-3.9.4/bin"
                 scannerHome = tool "SonarQubeScanner-5.0.1"
             }
         steps{
