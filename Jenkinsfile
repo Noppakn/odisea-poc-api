@@ -21,21 +21,11 @@ pipeline {
             }
         }
         stage('SonarQube analysis') {
-            environment {
-                PATH = "/root/.sonar/sonar-scanner-4.7.0.2747-linux"
-                scannerHome = tool "SonarQubeScanner"
-            }
         steps{
            script {
-                    def scannerCmd = """
-                        sonar-scanner \\
-                        -Dsonar.projectKey=jenkins-Integration \\
-                        -Dsonar.sources=. \\
-                        -Dsonar.host.url=http://4.194.175.25:9000
-                    """
-                    
-                    withSonarQubeEnv('SonarQube') {
-                        sh scannerCmd
+                def scannerHome = tool "SonarQubeScanner"
+                withSonarQubeEnv('SonarQube') {
+                         sh "${tool("sonarscan ")}/bin/sonar-scanner -Dsonar.projectKey=jenkins-Integration -Dsonar.projectName=jenkins-Integration"
                     }
                 }
             }
