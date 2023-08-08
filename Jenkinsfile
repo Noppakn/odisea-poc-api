@@ -22,15 +22,20 @@ pipeline {
         }
         stage('SonarQube analysis') {
             environment {
-                PATH = "/root/.sonar/sonar-scanner-4.7.0.2747-linux"
                 scannerHome = tool "SonarQubeScanner"
             }
         steps{
-            withSonarQubeEnv("SonarQube") {
-                sh 'sonar-scanner \
-                -Dsonar.projectKey=jenkins-Integration \
-                -Dsonar.sources=. \
-                -Dsonar.host.url=http://4.194.175.25:9000'
+           script {
+                    def scannerCmd = """
+                        sonar-scanner \\
+                        -Dsonar.projectKey=jenkins-Integration \\
+                        -Dsonar.sources=. \\
+                        -Dsonar.host.url=http://4.194.175.25:9000
+                    """
+                    
+                    withSonarQubeEnv('SonarQube') {
+                        sh scannerCmd
+                    }
                 }
             }
         }
