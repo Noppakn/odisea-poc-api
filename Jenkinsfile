@@ -20,16 +20,6 @@ pipeline {
                 echo '${REPO_URL}'
             }
         }
-        stage('SonarQube analysis') {
-        steps{
-           script {
-                def scannerHome = tool "SonarQubeScanner"
-                withSonarQubeEnv('SonarQube') {
-                         sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.projectKey=jenkins-Integration -Dsonar.projectName=jenkins-Integration"
-                    }
-                }
-            }
-        }
         stage('Build Image') {
             steps {
                 sh 'docker build -t ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER} $WORKSPACE/'
