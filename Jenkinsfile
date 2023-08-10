@@ -30,7 +30,7 @@ pipeline {
                script {
                     def imageName = "${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}"
                     def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
-                    sh """trivy image --format template --template \"@/home/trivy-main/contrib/html.tpl\" --output ${reportFileName} ${imageName} """
+                    sh """trivy image --format template --template \"@/home/trivy-main/contrib/html.tpl\" -o ${reportFileName} ${imageName} """
                 }
             }
         }
