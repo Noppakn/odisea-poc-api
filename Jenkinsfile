@@ -30,7 +30,54 @@ pipeline {
                script {
                     def imageName = "${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}"
                     def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
-                    sh """trivy image --format template --template \"@/home/trivy-main/contrib/html.tpl\" -o ${reportFileName} ${imageName} """
+                     sh "trivy image --format json --output ${reportFileName} ${imageName}"
+            
+                    // Read the JSON report
+                    def jsonReport = readFile(reportFileName)
+                    
+                    // Generate HTML report using template and jsonReport
+                    def htmlReport = """
+                    <!DOCTYPE html>
+                    <html>
+                    <head>
+                        <title>Trivy Scan Report</title>
+                        <style>
+                            /* Add your CSS styles here */
+                        </style>
+                    </head>
+                    <body>
+                        <h1>Trivy Scan Report for ${jsonReport.ImageName}</h1>
+                        
+                        <h2>Scan Results:</h2>
+                        <ul>
+                            <li>Severity: ${jsonReport.Severity}</li>
+                            <li>Vulnerabilities Found: ${jsonReport.Vulnerabilities.size()}</li>
+                        </ul>
+                        
+                        <h2>Details:</h2>
+                        <table>
+                            <tr>
+                                <th>Vulnerability ID</th>
+                                <th>Package Name</th>
+                                <th>Installed Version</th>
+                                <th>Fixed Version</th>
+                            </tr>
+                            <!-- Loop through vulnerabilities and generate rows -->
+                            {{- range jsonReport.Vulnerabilities -}}
+                            <tr>
+                                <td>{{ .VulnerabilityID }}</td>
+                                <td>{{ .PkgName }}</td>
+                                <td>{{ .InstalledVersion }}</td>
+                                <td>{{ .FixedVersion }}</td>
+                            </tr>
+                            {{- end -}}
+                        </table>
+                    </body>
+                    </html>
+                    """
+                                
+                                // Write the HTML report back to the report file
+                                writeFile file: reportFileName, text: htmlReport
                 }
             }
         }
