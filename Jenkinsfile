@@ -50,7 +50,6 @@ pipeline {
                         
                         <h2>Scan Results:</h2>
                         <ul>
-                            <li>Severity: ${jsonReport.Severity}</li>
                             <li>Vulnerabilities Found: ${jsonReport.Vulnerabilities.size()}</li>
                         </ul>
                         
