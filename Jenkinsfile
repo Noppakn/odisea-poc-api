@@ -49,9 +49,6 @@ pipeline {
                         <h1>Trivy Scan Report</h1>
                         
                         <h2>Scan Results:</h2>
-                        <ul>
-                            <li>Vulnerabilities Found: ${jsonReport.Vulnerabilities.size()}</li>
-                        </ul>
                         
                         <h2>Details:</h2>
                         <table>
