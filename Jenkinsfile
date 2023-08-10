@@ -64,8 +64,8 @@ pipeline {
                             alwaysLinkToLastBuild: false,
                             keepAll: true,
                             reportDir: '.',
-                            reportFiles: '${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_trivy_report.html',
-                            reportName: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME} Trivy Scan',
+                            reportFiles: '${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html',
+                            reportName: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}_ Trivy Scan',
                             ])
                     }
                 }
