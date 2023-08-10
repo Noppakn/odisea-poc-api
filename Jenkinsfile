@@ -29,7 +29,7 @@ pipeline {
             steps {
                script {
                     def imageName = "${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}"
-                    def reportFileName = "${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
+                    def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
                     
                     sh "trivy image --format template --template /var/jenkins_home/templates/report_template.html --output ${reportFileName} ${imageName}"
                     
