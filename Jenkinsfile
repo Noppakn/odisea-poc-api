@@ -35,12 +35,11 @@ pipeline {
                     
                     // Post-process the template file and insert scan results
                     def templateContent = readFile(reportFileName)
-                     def htmlReport = templateContent.replaceAll('<!-- TRIVY_JSON -->', trivyOutput)
                     // Perform necessary replacements or insertions to include scan results in templateContent
                     // ...
 
                     // Write the modified content back to the report file
-                    writeFile file: reportFileName, text: htmlReport
+                    writeFile file: reportFileName, text: templateContent
                 }
             }
         }
@@ -76,7 +75,7 @@ pipeline {
                             keepAll: true,
                             reportDir: '.',
                             reportFiles: '${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html',
-                            reportName: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}_ Trivy Scan',
+                            reportName: 'Trivy Scan Report',
                             ])
                     }
                 }
