@@ -30,75 +30,7 @@ pipeline {
                script {
                     def imageName = "${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}"
                     def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
-                    def trivyReportJson = sh(script: "trivy image --format json ${imageName}", returnStdout: true).trim()
-                    // Parse the JSON report
-                   
-                    // Print the JSON report to see if there are any issues
-                    echo "Trivy JSON Report:"
-                    echo trivyReportJson
-
-                    // Parse the JSON report
-                    def trivyReport
-                    try {
-                        trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
-                    } catch (Exception e) {
-                        error "Error parsing JSON report: ${e.message}"
-                    }
-                    // Create a formatted report
-                    //def trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
-                    def reportContent = """
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Trivy Scan Report</title>
-                        <style>
-                            /* Add your CSS styles here */
-                            body {
-                                font-family: Arial, sans-serif;
-                            }
-                            table {
-                                border-collapse: collapse;
-                                width: 100%;
-                                margin-top: 20px;
-                            }
-                            th, td {
-                                border: 1px solid #ddd;
-                                padding: 8px;
-                                text-align: left;
-                            }
-                            th {
-                                background-color: #f2f2f2;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>Trivy Scan Report for ${imageName}</h1>
-                        
-                        <h2>Scan Results:</h2>
-                        <table>
-                            <tr>
-                                <th>Vulnerability ID</th>
-                                <th>Package Name</th>
-                                <th>Installed Version</th>
-                                <th>Severity</th>
-                            </tr>
-                            <!-- Loop through vulnerabilities and generate table rows -->
-                            ${trivyReport.Vulnerabilities.collect { vulnerability ->
-                                """
-                                <tr>
-                                    <td>${vulnerability.VulnerabilityID}</td>
-                                    <td>${vulnerability.PkgName}</td>
-                                    <td>${vulnerability.InstalledVersion}</td>
-                                    <td>${vulnerability.Severity}</td>
-                                </tr>
-                                """
-                            }.join('\n')}
-                        </table>
-                    </body>
-                    </html>
-                    """
-                    
-                    writeFile file: reportFileName, text: reportContent
+                    sh """trivy image --format template --template \"@/home/trivy-main/contrib/html.tpl\" --output ${reportFileName} ${imageName} """
                 }
             }
         }
