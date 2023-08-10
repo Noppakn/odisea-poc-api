@@ -57,7 +57,7 @@ pipeline {
     }
     post {
                     always {
-                        archiveArtifacts artifacts: "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_trivy_report.html", fingerprint: true
+                        archiveArtifacts artifacts: "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html", fingerprint: true
                             
                         publishHTML (target: [
                             allowMissing: false,
