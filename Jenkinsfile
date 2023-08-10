@@ -32,55 +32,56 @@ pipeline {
                     def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
                     def trivyReport = sh(script: "trivy image --format json ${imageName}", returnStdout: true).trim()
                     def reportContent = """
-                                <!DOCTYPE html>
-                                <html>
-                                <head>
-                                    <title>Trivy Scan Report</title>
-                                    <style>
-                                        body {
-                                            font-family: Arial, sans-serif;
-                                        }
-                                        table {
-                                            border-collapse: collapse;
-                                            width: 100%;
-                                            margin-top: 20px;
-                                        }
-                                        th, td {
-                                            border: 1px solid #ddd;
-                                            padding: 8px;
-                                            text-align: left;
-                                        }
-                                        th {
-                                            background-color: #f2f2f2;
-                                        }
-                                    </style>
-                                </head>
-                                <body>
-                                    <h1>Trivy Scan Report for ${imageName}</h1>
-                                    
-                                    <h2>Scan Results:</h2>
-                                    <table>
-                                        <tr>
-                                            <th>Severity</th>
-                                            <th>Package Name</th>
-                                            <th>Installed Version</th>
-                                            <th>Fixed Version</th>
-                                        </tr>
-                                        <!-- Loop through vulnerabilities and generate table rows -->
-                                        ${trivyReport.Vulnerabilities.collect { vulnerability ->
-                                            """
-                                            <tr>
-                                                <td>${vulnerability.Severity}</td>
-                                                <td>${vulnerability.PkgName}</td>
-                                                <td>${vulnerability.InstalledVersion}</td>
-                                                <td>${vulnerability.FixedVersion}</td>
-                                            </tr>
-                                            """
-                                        }.join('\n')}
-                                    </table>
-                                </body>
-                                </html>
-            """
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Trivy Scan Report</title>
+                            <style>
+                                /* Add your CSS styles here */
+                                body {
+                                    font-family: Arial, sans-serif;
+                                }
+                                table {
+                                    border-collapse: collapse;
+                                    width: 100%;
+                                    margin-top: 20px;
+                                }
+                                th, td {
+                                    border: 1px solid #ddd;
+                                    padding: 8px;
+                                    text-align: left;
+                                }
+                                th {
+                                    background-color: #f2f2f2;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <h1>Trivy Scan Report for ${imageName}</h1>
+                            
+                            <h2>Scan Results:</h2>
+                            <table>
+                                <tr>
+                                    <th>Vulnerability ID</th>
+                                    <th>Package Name</th>
+                                    <th>Installed Version</th>
+                                    <th>Severity</th>
+                                </tr>
+                                <!-- Loop through vulnerabilities and generate table rows -->
+                                ${trivyReport.Vulnerabilities.collect { vulnerability ->
+                                    """
+                                    <tr>
+                                        <td>${vulnerability.VulnerabilityID}</td>
+                                        <td>${vulnerability.PkgName}</td>
+                                        <td>${vulnerability.InstalledVersion}</td>
+                                        <td>${vulnerability.Severity}</td>
+                                    </tr>
+                                    """
+                                }.join('\n')}
+                            </table>
+                        </body>
+                        </html>
+                        """
                     
                     writeFile file: reportFileName, text: reportContent
                     
