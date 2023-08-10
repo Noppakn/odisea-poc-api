@@ -37,40 +37,42 @@ pipeline {
                     
                     // Generate HTML report using template and jsonReport
                     def htmlReport = """
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <title>Trivy Scan Report</title>
-                        <style>
-                            /* Add your CSS styles here */
-                        </style>
-                    </head>
-                    <body>
-                        <h1>Trivy Scan Report</h1>
-                        
-                        <h2>Scan Results:</h2>
-                        
-                        <h2>Details:</h2>
-                        <table>
-                            <tr>
-                                <th>Vulnerability ID</th>
-                                <th>Package Name</th>
-                                <th>Installed Version</th>
-                                <th>Fixed Version</th>
-                            </tr>
-                            <!-- Loop through vulnerabilities and generate rows -->
-                            {{- range jsonReport.Vulnerabilities -}}
-                            <tr>
-                                <td>{{ .VulnerabilityID }}</td>
-                                <td>{{ .PkgName }}</td>
-                                <td>{{ .InstalledVersion }}</td>
-                                <td>{{ .FixedVersion }}</td>
-                            </tr>
-                            {{- end -}}
-                        </table>
-                    </body>
-                    </html>
-                    """
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <title>Trivy Scan Report</title>
+                            <style>
+                                /* Add your CSS styles here */
+                            </style>
+                        </head>
+                        <body>
+                            <h1>Trivy Scan Report</h1>
+                            
+                            <h2>Scan Results:</h2>
+                            
+                            <h2>Details:</h2>
+                            <table>
+                                <tr>
+                                    <th>Vulnerability ID</th>
+                                    <th>Package Name</th>
+                                    <th>Installed Version</th>
+                                    <th>Fixed Version</th>
+                                </tr>
+                                <!-- Loop through vulnerabilities and generate rows -->
+                                ${jsonReport.Vulnerabilities.collect { vulnerability ->
+                                    """
+                                    <tr>
+                                        <td>${vulnerability.VulnerabilityID}</td>
+                                        <td>${vulnerability.PkgName}</td>
+                                        <td>${vulnerability.InstalledVersion}</td>
+                                        <td>${vulnerability.FixedVersion}</td>
+                                    </tr>
+                                    """
+                                }.join('')}
+                            </table>
+                        </body>
+                        </html>
+                        """
                                 
                                 // Write the HTML report back to the report file
                                 writeFile file: reportFileName, text: htmlReport
