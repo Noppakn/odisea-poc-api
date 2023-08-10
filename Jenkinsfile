@@ -32,9 +32,20 @@ pipeline {
                     def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
                     def trivyReportJson = sh(script: "trivy image --format json ${imageName}", returnStdout: true).trim()
                     // Parse the JSON report
-                    def trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
+                   
+                    // Print the JSON report to see if there are any issues
+                    echo "Trivy JSON Report:"
+                    echo trivyReportJson
 
+                    // Parse the JSON report
+                    def trivyReport
+                    try {
+                        trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
+                    } catch (Exception e) {
+                        error "Error parsing JSON report: ${e.message}"
+                    }
                     // Create a formatted report
+                    def trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
                     def reportContent = """
                     <!DOCTYPE html>
                     <html>
