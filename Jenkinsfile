@@ -28,17 +28,21 @@ pipeline {
         stage('Container Security Trivi Scan') {
             steps {
                script {
-                    // Scan the Docker image using Trivy
-                    def trivyOutput = sh(script: "trivy --no-progress --format json --output ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_trivy_report.json --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}", returnStdout: true).trim()
-
-                    // Load HTML template
-                    def templateContent = readFile('/var/jenkins_home/templates/report_template.html')
-
-                    // Render the HTML template with Trivy data
-                    def htmlReport = templateContent.replaceAll('<!-- TRIVY_JSON -->', trivyOutput)
-
-                    // Save the HTML report to a file
-                    writeFile file: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_trivy_report.html', text: htmlReport
+                     sh """trivy image --format template --template \"/var/jenkins_home/templates/report_template.html" --output ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_trivy_report.html ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_ """
+                }
+                post {
+                    always {
+                        archiveArtifacts artifacts: "${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_trivy_report.html", fingerprint: true
+                            
+                        publishHTML (target: [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: '.',
+                            reportFiles: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_trivy_report.html',
+                            reportName: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME} Trivy Scan',
+                            ])
+                    }
                 }
             }
         }
