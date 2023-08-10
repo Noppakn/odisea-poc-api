@@ -46,7 +46,7 @@ pipeline {
                         </style>
                     </head>
                     <body>
-                        <h1>Trivy Scan Report for ${jsonReport.ImageName}</h1>
+                        <h1>Trivy Scan Report</h1>
                         
                         <h2>Scan Results:</h2>
                         <ul>
