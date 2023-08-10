@@ -28,7 +28,8 @@ pipeline {
         stage('Container Security Trivi Scan') {
             steps {
                script {
-                     sh """trivy image --format template --template \"/var/jenkins_home/templates/report_template.html\" --output ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}_trivy_report.html ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}"""
+                     sh """trivy image --format template --template /var/jenkins_home/templates/report_template.html --output ${WORKSPACE}/odisea-poc-api-cts-trivy-pipeline_trivy_report.html odiseaacr.azurecr.io/odiseaacr/odisea-poc-api-cts-trivy-pipeline
+"""
                 }
                 post {
                     always {
