@@ -25,10 +25,11 @@ pipeline {
                 sh 'docker build -t ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER} $WORKSPACE/'
             }
         }
-        stage('Container Security Trivi Scan')
+        stage('Container Security Trivi Scan') {
             steps {
                 sh 'trivi ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
             }
+        }
 
          stage('Push Image to ACR') {
             environment {
