@@ -31,20 +31,6 @@ pipeline {
                      sh """trivy image --format template --template /var/jenkins_home/templates/report_template.html --output ${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}
 """
                 }
-                post {
-                    always {
-                        archiveArtifacts artifacts: "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_trivy_report.html", fingerprint: true
-                            
-                        publishHTML (target: [
-                            allowMissing: false,
-                            alwaysLinkToLastBuild: false,
-                            keepAll: true,
-                            reportDir: '.',
-                            reportFiles: '${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_trivy_report.html',
-                            reportName: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME} Trivy Scan',
-                            ])
-                    }
-                }
             }
         }
 
@@ -69,6 +55,20 @@ pipeline {
             }
         }
     }
+    post {
+                    always {
+                        archiveArtifacts artifacts: "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_trivy_report.html", fingerprint: true
+                            
+                        publishHTML (target: [
+                            allowMissing: false,
+                            alwaysLinkToLastBuild: false,
+                            keepAll: true,
+                            reportDir: '.',
+                            reportFiles: '${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_trivy_report.html',
+                            reportName: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME} Trivy Scan',
+                            ])
+                    }
+                }
 }
 
 
