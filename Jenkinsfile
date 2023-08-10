@@ -27,7 +27,10 @@ pipeline {
         }
         stage('Container Security Trivi Scan') {
             steps {
-                sh 'trivy --no-progress --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
+                script {
+                    def trivyOutput = sh(script: "trivy --no-progress --format json --output trivy_report.json --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}", returnStdout: true).trim()
+                    writeFile file: '${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}_trivy_report.json', text: trivyOutput
+                }
             }
         }
 
