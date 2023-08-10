@@ -45,7 +45,7 @@ pipeline {
                         error "Error parsing JSON report: ${e.message}"
                     }
                     // Create a formatted report
-                    def trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
+                    //def trivyReport = new groovy.json.JsonSlurper().parseText(trivyReportJson)
                     def reportContent = """
                     <!DOCTYPE html>
                     <html>
