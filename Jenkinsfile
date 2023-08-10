@@ -27,7 +27,7 @@ pipeline {
         }
         stage('Container Security Trivi Scan') {
             steps {
-                sh 'trivi ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
+                sh 'trivy ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}'
             }
         }
 
