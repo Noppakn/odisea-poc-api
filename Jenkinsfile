@@ -18,7 +18,7 @@ pipeline {
            script {
                 def SCANNER_HOME = tool "SonarQubeScanner"
                 withSonarQubeEnv('odsiea-poc-api-sonarqube-pipeline') {
-                    sh '''$SCANNER_HOME/bin/sonar-scanner \
+                    sh '''${SCANNER_HOME}/bin/sonar-scanner \
                     -Dsonar.projectKey=odisea-poc-api \
                     -Dsonar.projectName=odisea-poc-api \
                     '''
