@@ -59,13 +59,13 @@ pipeline {
                                     <th>Fixed Version</th>
                                 </tr>
                                 <!-- Loop through vulnerabilities and generate rows -->
-                                ${jsonReport.Vulnerabilities.collect { vulnerability ->
+                                ${jsonReport."Vulnerabilities".collect { vulnerability ->
                                     """
                                     <tr>
-                                        <td>${vulnerability.VulnerabilityID}</td>
-                                        <td>${vulnerability.PkgName}</td>
-                                        <td>${vulnerability.InstalledVersion}</td>
-                                        <td>${vulnerability.FixedVersion}</td>
+                                        <td>${vulnerability."VulnerabilityID"}</td>
+                                        <td>${vulnerability."PkgName"}</td>
+                                        <td>${vulnerability."InstalledVersion"}</td>
+                                        <td>${vulnerability."FixedVersion"}</td>
                                     </tr>
                                     """
                                 }.join('')}
