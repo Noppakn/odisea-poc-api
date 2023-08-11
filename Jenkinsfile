@@ -13,7 +13,7 @@ pipeline {
             url: '${REPO_URL}'
             }
         }
-        
+                
         stage('OWASP Dependency-Check Vulnerabilities') {
             steps {
                 dependencyCheck additionalArguments: ''' 
