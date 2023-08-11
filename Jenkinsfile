@@ -23,52 +23,53 @@ pipeline {
                script {
                     def imageName = "${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER}"
                     def reportFileName = "${DOCKER_REG_URL}_${DOCKER_REG_NAME}_${APP_NAME}_${BUILD_NUMBER}_trivy_report.html"
-                     sh "trivy image --format json --output ${reportFileName} ${imageName}"
+                    sh 'trivy image --format template --template "@/home/trivy/contrib/html.tpl" -o ${reportFileName} ${imageName}'
+                    //  sh "trivy image --format json --output ${reportFileName} ${imageName}"
             
-                    // Read the JSON report
-                    def jsonReport = readFile(reportFileName)
-                    print(jsonReport[2])
-                    //Generate HTML report using template and jsonReport
-                    def htmlReport = """
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>Trivy Scan Report</title>
-                            <style>
-                                /* Add your CSS styles here */
-                            </style>
-                        </head>
-                        <body>
-                            <h1>Trivy Scan Report</h1>
+                    // // Read the JSON report
+                    // def jsonReport = readFile(reportFileName)
+                    // print(jsonReport[2])
+                    // //Generate HTML report using template and jsonReport
+                    // def htmlReport = """
+                    //     <!DOCTYPE html>
+                    //     <html>
+                    //     <head>
+                    //         <title>Trivy Scan Report</title>
+                    //         <style>
+                    //             /* Add your CSS styles here */
+                    //         </style>
+                    //     </head>
+                    //     <body>
+                    //         <h1>Trivy Scan Report</h1>
                             
-                            <h2>Scan Results:</h2>
+                    //         <h2>Scan Results:</h2>
                             
-                            <h2>Details:</h2>
-                            <table>
-                                <tr>
-                                    <th>Vulnerability ID</th>
-                                    <th>Package Name</th>
-                                    <th>Installed Version</th>
-                                    <th>Fixed Version</th>
-                                </tr>
-                                <!-- Loop through vulnerabilities and generate rows -->
-                                ${jsonReport.Vulnerabilities.collect { vulnerability ->
-                                    """
-                                    <tr>
-                                        <td>${vulnerability."VulnerabilityID"}</td>
-                                        <td>${vulnerability."PkgName"}</td>
-                                        <td>${vulnerability."InstalledVersion"}</td>
-                                        <td>${vulnerability."FixedVersion"}</td>
-                                    </tr>
-                                    """
-                                }.join('')}
-                            </table>
-                        </body>
-                        </html>
-                        """
+                    //         <h2>Details:</h2>
+                    //         <table>
+                    //             <tr>
+                    //                 <th>Vulnerability ID</th>
+                    //                 <th>Package Name</th>
+                    //                 <th>Installed Version</th>
+                    //                 <th>Fixed Version</th>
+                    //             </tr>
+                    //             <!-- Loop through vulnerabilities and generate rows -->
+                    //             ${jsonReport.Vulnerabilities.collect { vulnerability ->
+                    //                 """
+                    //                 <tr>
+                    //                     <td>${vulnerability."VulnerabilityID"}</td>
+                    //                     <td>${vulnerability."PkgName"}</td>
+                    //                     <td>${vulnerability."InstalledVersion"}</td>
+                    //                     <td>${vulnerability."FixedVersion"}</td>
+                    //                 </tr>
+                    //                 """
+                    //             }.join('')}
+                    //         </table>
+                    //     </body>
+                    //     </html>
+                    //     """
                                 
-                                Write the HTML report back to the report file
-                                writeFile file: reportFileName, text: htmlReport
+                    //             Write the HTML report back to the report file
+                    //             writeFile file: reportFileName, text: htmlReport
                 }
             }
         }
