@@ -14,11 +14,10 @@ pipeline {
             }
         }
 
-        stage('Code build') {
-            steps {
-                sh 'npm install'
-                echo '${REPO_URL}'
-            }
+        // stage('Code build') {
+        //     steps {
+        //         sh 'npm install'
+        //     }
         }
         stage('SonarQube analysis') {
         steps{
