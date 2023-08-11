@@ -5,7 +5,9 @@ pipeline {
      options {
         skipDefaultCheckout(true)
     }
-
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+    }
     stages {
         stage('Clone git') {
             steps {
@@ -18,7 +20,6 @@ pipeline {
            script {
                 def SCANNER_HOME = tool "SonarQubeScanner"
                 withSonarQubeEnv('odsiea-poc-api-sonarqube-pipeline') {
-                    sh 'whoami'
                     sh 'java --version'
                     sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.projectKey=projectKey=odisea-poc-api -Dsonar.projectName=projectKey=odisea-poc-api"
                     }
