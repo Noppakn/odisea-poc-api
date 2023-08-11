@@ -62,10 +62,10 @@ pipeline {
                                 ${jsonReport.Vulnerabilities.collect { vulnerability ->
                                     """
                                     <tr>
-                                        <td>${jsonReport.vulnerability.VulnerabilityID}</td>
-                                        <td>${jsonReport.vulnerability.PkgName}</td>
-                                        <td>${jsonReport.vulnerability.InstalledVersion}</td>
-                                        <td>${jsonReport.vulnerability.FixedVersion}</td>
+                                        <td>${vulnerability.VulnerabilityID}</td>
+                                        <td>${vulnerability.PkgName}</td>
+                                        <td>${vulnerability.InstalledVersion}</td>
+                                        <td>${vulnerability.FixedVersion}</td>
                                     </tr>
                                     """
                                 }.join('')}
