@@ -16,10 +16,12 @@ pipeline {
         stage('SonarQube analysis') {
         steps{
            script {
-                def scannerHome = tool "SonarQubeScanner"
-                withSonarQubeEnv('odsiea-poc-api-sonarqube') {
-                         sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.projectKey=odsiea-poc-api-sonarqube -Dsonar.projectName=odsiea-poc-api-sonarqube"
-                    }
+                def SCANNER_HOME = tool "SonarQubeScanner"
+                withSonarQubeEnv('odsiea-poc-api-sonarqube-pipeline') {
+                    sh '''$SCANNER_HOME/bin/sonar-scanner \
+                    -Dsonar.projectKey=odisea-poc-api \
+                    -Dsonar.projectName=odisea-poc-api \
+                    '''
                 }
             }
         }
