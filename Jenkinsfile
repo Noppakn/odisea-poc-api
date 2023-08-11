@@ -17,8 +17,8 @@ pipeline {
         steps{
            script {
                 def scannerHome = tool "SonarQubeScanner"
-                withSonarQubeEnv('SonarQube') {
-                         sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.projectKey=jenkins-Integration -Dsonar.projectName=jenkins-Integration"
+                withSonarQubeEnv('odsiea-poc-api-sonarqube') {
+                         sh "${tool("SonarQubeScanner")}/bin/sonar-scanner -Dsonar.projectKey=odsiea-poc-api-sonarqube -Dsonar.projectName=odsiea-poc-api-sonarqube"
                     }
                 }
             }
