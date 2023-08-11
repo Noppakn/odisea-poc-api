@@ -14,12 +14,6 @@ pipeline {
             }
         }
 
-        stage('Code build') {
-            steps {
-                sh 'npm install'
-                echo '${REPO_URL}'
-            }
-        }
         stage('Build Image') {
             steps {
                 sh 'docker build -t ${DOCKER_REG_URL}/${DOCKER_REG_NAME}/${APP_NAME}:${BUILD_NUMBER} $WORKSPACE/'
