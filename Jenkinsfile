@@ -14,11 +14,11 @@ pipeline {
             }
         }
 
-        // stage('Code build') {
-        //     steps {
-        //         sh 'npm install'
-        //     }
-        //}
+        stage('Code build') {
+            steps {
+                sh 'npm install'
+            }
+        }
         stage('SonarQube analysis') {
         steps{
            script {
