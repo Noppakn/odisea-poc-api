@@ -34,7 +34,7 @@ pipeline {
             
                     // Read the JSON report
                     def jsonReport = readFile(reportFileName)
-                    
+                    print(jsonReport)
                     // Generate HTML report using template and jsonReport
                     def htmlReport = """
                         <!DOCTYPE html>
