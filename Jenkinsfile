@@ -5,7 +5,9 @@ pipeline {
      options {
         skipDefaultCheckout(true)
     }
-
+    environment {
+        JAVA_HOME = '/usr/lib/jvm/java-17-openjdk-amd64'
+    }
     stages {
         stage('Clone git') {
             steps {
