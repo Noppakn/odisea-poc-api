@@ -22,6 +22,7 @@ pipeline {
                     -Dsonar.projectKey=odisea-poc-api \
                     -Dsonar.projectName=odisea-poc-api \
                     '''
+                    }
                 }
             }
         }
